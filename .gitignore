@@ -1,0 +1,34 @@
+# Backend ignores
+backend/target/
+backend/.mvn/
+backend/mvnw
+backend/mvnw.cmd
+backend/.settings/
+backend/.classpath
+backend/.project
+backend/.factorypath
+backend/HELP.md
+
+# Frontend ignores
+frontend/node_modules/
+frontend/.angular/
+frontend/dist/
+frontend/.vscode/
+frontend/.idea/
+frontend/.editorconfig
+frontend/.browserslistrc
+frontend/npm-debug.log
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/.env
+
+# IDE specific files
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+
+# OS specific files
+.DS_Store
+Thumbs.db
