@@ -4,6 +4,7 @@ import { VenueService } from '../../services/venue.service';
 import { BookingService } from '../../services/booking.service';
 import { Venue } from '../../models/venue.model';
 import { Booking } from '../../models/booking.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-venue-booking',
@@ -14,11 +15,15 @@ export class VenueBookingComponent implements OnInit {
   venues: Venue[] = [];
   bookingForm: FormGroup;
   bookings: Booking[] = [];
+  isEditing: boolean = false;
+  currentBookingId: number | null = null;
+  displayedColumns: string[] = ['activityId', 'date', 'startTime', 'endTime', 'actions'];
 
   constructor(
     private fb: FormBuilder,
     private venueService: VenueService,
-    private bookingService: BookingService
+    private bookingService: BookingService,
+    private snackBar: MatSnackBar
   ) {
     this.bookingForm = this.fb.group({
       venueId: ['', Validators.required],
@@ -51,12 +56,58 @@ export class VenueBookingComponent implements OnInit {
   onSubmit(): void {
     if (this.bookingForm.valid) {
       const booking: Booking = this.bookingForm.value;
-      this.bookingService.createBooking(booking)
+      if (this.isEditing && this.currentBookingId) {
+        // Update existing booking
+        this.bookingService.updateBooking(this.currentBookingId, booking)
+          .subscribe(() => {
+            this.loadBookings();
+            this.resetForm();
+            this.showSnackBar('Booking updated successfully', 'success');
+          }, error => {
+            this.showSnackBar('Error updating booking', 'error');
+          });
+      } else {
+        // Create new booking
+        this.bookingService.createBooking(booking)
+          .subscribe(() => {
+            this.loadBookings();
+            this.resetForm();
+            this.showSnackBar('Booking created successfully', 'success');
+          }, error => {
+            this.showSnackBar('Error creating booking', 'error');
+          });
+      }
+    }
+  }
+
+  editBooking(booking: Booking): void {
+    this.isEditing = true;
+    this.currentBookingId = booking.bookingId;
+    this.bookingForm.patchValue({
+      venueId: booking.venueId,
+      activityId: booking.activityId,
+      date: new Date(booking.date),
+      startTime: booking.startTime,
+      endTime: booking.endTime
+    });
+  }
+
+  deleteBooking(booking: Booking): void {
+    if (confirm('Are you sure you want to delete this booking?')) {
+      this.bookingService.deleteBooking(booking.bookingId)
         .subscribe(() => {
           this.loadBookings();
-          this.bookingForm.reset();
+          this.showSnackBar('Booking deleted successfully', 'success');
+        }, error => {
+          this.showSnackBar('Error deleting booking', 'error');
         });
     }
+  }
+
+  resetForm(): void {
+    this.bookingForm.reset();
+    this.isEditing = false;
+    this.currentBookingId = null;
   }
 
   onVenueChange(venueId: number): void {
@@ -78,5 +129,14 @@ export class VenueBookingComponent implements OnInit {
           this.bookings = bookings;
         });
     }
+  }
+
+  private showSnackBar(message: string, type: 'success' | 'error'): void {
+    this.snackBar.open(message, 'Close', {
+      duration: 3000,
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+      panelClass: type === 'success' ? ['success-snackbar'] : ['error-snackbar']
+    });
   }
 } 

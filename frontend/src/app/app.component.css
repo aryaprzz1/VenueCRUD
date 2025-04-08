@@ -1,9 +1,47 @@
+.mat-toolbar {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.mat-toolbar span {
+  color: #000000;
+  font-weight: 500;
+}
+
+.mat-toolbar a {
+  color: #000000 !important;
+  font-weight: 500;
+  margin: 0 8px;
+  transition: color 0.3s ease;
+}
+
+.mat-toolbar a:hover {
+  color: #666666 !important;
+}
+
+.mat-toolbar a.active {
+  color: #030e19 !important;
+  border-bottom: 2px solid #fcf9f9;
+}
+
+/* Override Material button text color */
+.mat-toolbar .mat-button {
+  color: #000000 !important;
+}
+
+.mat-toolbar .mat-button:hover {
+  color: #666666 !important;
+}
+
 .spacer {
   flex: 1 1 auto;
 }
 
 .content {
   padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 nav {

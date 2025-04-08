@@ -1,68 +1,130 @@
-<div class="booking-container">
-  <h2>Venue Booking</h2>
-  
-  <form [formGroup]="bookingForm" (ngSubmit)="onSubmit()" class="booking-form">
-    <mat-form-field appearance="fill">
-      <mat-label>Select Venue</mat-label>
-      <mat-select formControlName="venueId" (selectionChange)="onVenueChange($event.value)">
-        <mat-option *ngFor="let venue of venues" [value]="venue.venueId">
-          {{venue.name}} - {{venue.location}} (Capacity: {{venue.capacity}})
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+<div class="booking-container fade-in">
+  <div class="header">
+    <div class="header-content">
+      <h2>Venue Booking</h2>
+      <p class="subtitle">Schedule and manage venue bookings efficiently</p>
+    </div>
+  </div>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Activity ID</mat-label>
-      <input matInput formControlName="activityId" placeholder="Enter activity ID">
-    </mat-form-field>
+  <div class="content-grid">
+    <!-- Booking Form Card -->
+    <mat-card class="booking-form-card">
+      <mat-card-header>
+        <mat-card-title>{{isEditing ? 'Edit Booking' : 'New Booking'}}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <form [formGroup]="bookingForm" (ngSubmit)="onSubmit()" class="booking-form">
+          <div class="form-content">
+            <mat-form-field appearance="outline">
+              <mat-label>Select Venue</mat-label>
+              <mat-select formControlName="venueId" (selectionChange)="onVenueChange($event.value)">
+                <mat-option *ngFor="let venue of venues" [value]="venue.venueId">
+                  {{venue.name}} - {{venue.location}} (Capacity: {{venue.capacity}})
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="bookingForm.get('venueId')?.hasError('required')">
+                Please select a venue
+              </mat-error>
+            </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Date</mat-label>
-      <input matInput [matDatepicker]="picker" formControlName="date" (dateChange)="onDateChange()">
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Activity ID</mat-label>
+              <input matInput formControlName="activityId" placeholder="Enter activity ID">
+              <mat-error *ngIf="bookingForm.get('activityId')?.hasError('required')">
+                Activity ID is required
+              </mat-error>
+            </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Start Time</mat-label>
-      <input matInput type="time" formControlName="startTime">
-    </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Date</mat-label>
+              <input matInput [matDatepicker]="picker" formControlName="date" (dateChange)="onDateChange()">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+              <mat-error *ngIf="bookingForm.get('date')?.hasError('required')">
+                Date is required
+              </mat-error>
+            </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>End Time</mat-label>
-      <input matInput type="time" formControlName="endTime">
-    </mat-form-field>
+            <div class="time-inputs">
+              <mat-form-field appearance="outline">
+                <mat-label>Start Time</mat-label>
+                <input matInput type="time" formControlName="startTime">
+                <mat-error *ngIf="bookingForm.get('startTime')?.hasError('required')">
+                  Start time is required
+                </mat-error>
+              </mat-form-field>
 
-    <button mat-raised-button color="primary" type="submit" [disabled]="!bookingForm.valid">
-      Book Venue
-    </button>
-  </form>
+              <mat-form-field appearance="outline">
+                <mat-label>End Time</mat-label>
+                <input matInput type="time" formControlName="endTime">
+                <mat-error *ngIf="bookingForm.get('endTime')?.hasError('required')">
+                  End time is required
+                </mat-error>
+              </mat-form-field>
+            </div>
 
-  <div class="bookings-list" *ngIf="bookings.length > 0">
-    <h3>Existing Bookings</h3>
-    <table mat-table [dataSource]="bookings">
-      <ng-container matColumnDef="activityId">
-        <th mat-header-cell *matHeaderCellDef> Activity ID </th>
-        <td mat-cell *matCellDef="let booking"> {{booking.activityId}} </td>
-      </ng-container>
+            <div class="form-actions">
+              <button mat-raised-button color="primary" type="submit" [disabled]="!bookingForm.valid">
+                <mat-icon>{{isEditing ? 'save' : 'event_available'}}</mat-icon>
+                {{isEditing ? 'Update Booking' : 'Book Venue'}}
+              </button>
+              <button mat-button type="button" (click)="resetForm()" *ngIf="isEditing">
+                <mat-icon>close</mat-icon>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
 
-      <ng-container matColumnDef="date">
-        <th mat-header-cell *matHeaderCellDef> Date </th>
-        <td mat-cell *matCellDef="let booking"> {{booking.date | date}} </td>
-      </ng-container>
+    <!-- Bookings List Card -->
+    <mat-card class="bookings-list-card" *ngIf="bookings.length > 0">
+      <mat-card-header>
+        <mat-card-title>Existing Bookings</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="table-container">
+          <table mat-table [dataSource]="bookings" class="mat-elevation-z0">
+            <ng-container matColumnDef="activityId">
+              <th mat-header-cell *matHeaderCellDef> Activity ID </th>
+              <td mat-cell *matCellDef="let booking"> {{booking.activityId}} </td>
+            </ng-container>
 
-      <ng-container matColumnDef="startTime">
-        <th mat-header-cell *matHeaderCellDef> Start Time </th>
-        <td mat-cell *matCellDef="let booking"> {{booking.startTime}} </td>
-      </ng-container>
+            <ng-container matColumnDef="date">
+              <th mat-header-cell *matHeaderCellDef> Date </th>
+              <td mat-cell *matCellDef="let booking"> {{booking.date | date}} </td>
+            </ng-container>
 
-      <ng-container matColumnDef="endTime">
-        <th mat-header-cell *matHeaderCellDef> End Time </th>
-        <td mat-cell *matCellDef="let booking"> {{booking.endTime}} </td>
-      </ng-container>
+            <ng-container matColumnDef="startTime">
+              <th mat-header-cell *matHeaderCellDef> Start Time </th>
+              <td mat-cell *matCellDef="let booking"> {{booking.startTime}} </td>
+            </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="['activityId', 'date', 'startTime', 'endTime']"></tr>
-      <tr mat-row *matRowDef="let row; columns: ['activityId', 'date', 'startTime', 'endTime'];"></tr>
-    </table>
+            <ng-container matColumnDef="endTime">
+              <th mat-header-cell *matHeaderCellDef> End Time </th>
+              <td mat-cell *matCellDef="let booking"> {{booking.endTime}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef> Actions </th>
+              <td mat-cell *matCellDef="let booking">
+                <div class="action-buttons">
+                  <button mat-icon-button color="primary" (click)="editBooking(booking)" matTooltip="Edit">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button mat-icon-button color="warn" (click)="deleteBooking(booking)" matTooltip="Delete">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </div>
+      </mat-card-content>
+    </mat-card>
   </div>
 </div> 

@@ -1,0 +1,66 @@
+<h2 mat-dialog-title>{{data ? 'Edit Booking' : 'New Booking'}}</h2>
+
+<form [formGroup]="bookingForm" (ngSubmit)="onSubmit()">
+  <mat-dialog-content>
+    <div class="form-container">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Venue</mat-label>
+        <mat-select formControlName="venueId">
+          <mat-option *ngFor="let venue of venues" [value]="venue.venueId">
+            {{venue.name}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="bookingForm.get('venueId')?.hasError('required')">
+          Venue is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Activity</mat-label>
+        <mat-select formControlName="activityId">
+          <mat-option *ngFor="let activity of activities" [value]="activity.activityId">
+            {{activity.name}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="bookingForm.get('activityId')?.hasError('required')">
+          Activity is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Date</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="date">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngIf="bookingForm.get('date')?.hasError('required')">
+          Date is required
+        </mat-error>
+      </mat-form-field>
+
+      <div class="time-container">
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Start Time</mat-label>
+          <input matInput type="time" formControlName="startTime">
+          <mat-error *ngIf="bookingForm.get('startTime')?.hasError('required')">
+            Start time is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>End Time</mat-label>
+          <input matInput type="time" formControlName="endTime">
+          <mat-error *ngIf="bookingForm.get('endTime')?.hasError('required')">
+            End time is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end" class="form-actions">
+    <button mat-button type="button" (click)="onCancel()">Cancel</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="!bookingForm.valid">
+      {{data ? 'Update' : 'Create'}}
+    </button>
+  </mat-dialog-actions>
+</form> 

@@ -4,7 +4,9 @@
 html, body {
   height: 100%;
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: 'Roboto', "Helvetica Neue", sans-serif;
+  background-color: #f8f9fa;
+  color: #2c3e50;
 }
 
 .mat-typography {
@@ -12,16 +14,204 @@ html, body {
   letter-spacing: normal;
 }
 
+/* Modern Card Styles */
+.mat-mdc-card {
+  border-radius: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  background: white;
+  overflow: hidden;
+}
+
+.mat-mdc-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Table Styles */
+.mat-mdc-table {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.mat-mdc-header-cell {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #495057;
+  padding: 16px;
+}
+
+.mat-mdc-row {
+  transition: background-color 0.2s ease-in-out;
+}
+
+.mat-mdc-row:hover {
+  background-color: #f8f9fa;
+}
+
+/* Form Styles */
+.mat-mdc-form-field {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.mat-mdc-form-field-appearance-outline .mat-mdc-form-field-flex {
+  background-color: white;
+  border-radius: 8px;
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.mat-mdc-form-field-appearance-outline .mat-mdc-form-field-flex:focus-within {
+  box-shadow: 0 0 0 2px rgba(63, 81, 181, 0.2);
+}
+
+/* Button Styles */
+.mat-mdc-raised-button {
+  border-radius: 8px;
+  padding: 8px 24px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.2s ease-in-out;
+}
+
+.mat-mdc-raised-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Dialog Styles */
+.mat-mdc-dialog-container {
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.mat-mdc-dialog-title {
+  padding: 24px;
+  margin: 0;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.mat-mdc-dialog-content {
+  padding: 24px;
+}
+
+/* Snackbar Styles */
 .success-snackbar {
   background: #4caf50;
   color: white;
+  border-radius: 8px;
 }
 
 .error-snackbar {
   background: #f44336;
   color: white;
+  border-radius: 8px;
 }
 
 .mat-mdc-snack-bar-action {
   color: white;
+}
+
+/* Animation Classes */
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Container Styles */
+.page-container {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.header-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.header h2 {
+  margin: 0;
+  color: #2c3e50;
+  font-weight: 500;
+  font-size: 24px;
+}
+
+.subtitle {
+  margin: 0;
+  color: #6c757d;
+  font-size: 1rem;
+}
+
+/* Grid Layout */
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin-top: 24px;
+}
+
+/* Card Content */
+.card-content {
+  padding: 24px;
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.action-buttons button {
+  transition: transform 0.2s ease-in-out;
+}
+
+.action-buttons button:hover {
+  transform: scale(1.1);
+}
+
+/* Form Actions */
+.form-actions {
+  display: flex;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .page-container {
+    padding: 16px;
+  }
+  
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
 } 

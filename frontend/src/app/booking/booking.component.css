@@ -1,0 +1,52 @@
+.bookings-table {
+  margin-top: 24px;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-mdc-header-cell {
+  font-weight: 600;
+  color: #495057;
+  background-color: #f8f9fa;
+  padding: 16px;
+}
+
+.mat-mdc-cell {
+  padding: 16px;
+  color: #2c3e50;
+}
+
+.mat-mdc-row {
+  transition: background-color 0.2s ease-in-out;
+}
+
+.mat-mdc-row:hover {
+  background-color: #f8f9fa;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.action-buttons button {
+  transition: transform 0.2s ease-in-out;
+}
+
+.action-buttons button:hover {
+  transform: scale(1.1);
+}
+
+/* Responsive table */
+@media (max-width: 768px) {
+  .mat-mdc-header-cell,
+  .mat-mdc-cell {
+    padding: 12px;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+  }
+} 
