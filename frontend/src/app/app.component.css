@@ -1,37 +1,37 @@
 .mat-toolbar {
-  background-color: rgba(255, 255, 255, 0.9) !important;
+  background-color: rgba(44, 59, 166, 0.9) !important;
   backdrop-filter: blur(10px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .mat-toolbar span {
-  color: #000000;
+  color: #ffffff;
   font-weight: 500;
 }
 
 .mat-toolbar a {
-  color: #000000 !important;
+  color: #ffffff !important;
   font-weight: 500;
   margin: 0 8px;
   transition: color 0.3s ease;
 }
 
 .mat-toolbar a:hover {
-  color: #666666 !important;
+  color: rgba(255, 255, 255, 0.8) !important;
 }
 
 .mat-toolbar a.active {
-  color: #030e19 !important;
-  border-bottom: 2px solid #fcf9f9;
+  color: #ffffff !important;
+  border-bottom: 2px solid #ffffff;
 }
 
 /* Override Material button text color */
 .mat-toolbar .mat-button {
-  color: #000000 !important;
+  color: #ffffff !important;
 }
 
 .mat-toolbar .mat-button:hover {
-  color: #666666 !important;
+  color: rgba(255, 255, 255, 0.8) !important;
 }
 
 .spacer {
