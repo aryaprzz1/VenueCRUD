@@ -18,7 +18,7 @@ public class CorsConfig {
         config.addAllowedOrigin("http://localhost:4200");
         
         // Allow all HTTP methods
-        config.addAllowedMethod("*");
+        config.addAllowedMethod("*");   //* allows all HTTP methods (GET, POST, PUT, DELETE, etc.)
         
         // Allow all headers
         config.addAllowedHeader("*");

@@ -37,7 +37,7 @@ export class VenueDisplayComponent implements OnInit {
         })
       )
       .subscribe(venues => {
-        this.venues = venues;
+        this.venues = venues.sort((a, b) => a.venueId - b.venueId);
         this.isLoading = false;
       });
   }
