@@ -93,10 +93,19 @@ mat-form-field {
 
 .table-container {
   padding: 0 24px 24px;
+  max-height: 400px;
+  overflow-y: auto;
 }
 
 table {
   width: 100%;
+}
+
+.mat-mdc-header-row {
+  position: sticky;
+  top: 0;
+  background-color: #f8f9fa;
+  z-index: 1;
 }
 
 .action-buttons {

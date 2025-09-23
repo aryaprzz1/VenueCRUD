@@ -22,16 +22,16 @@
                   {{venue.name}} - {{venue.location}} (Capacity: {{venue.capacity}})
                 </mat-option>
               </mat-select>
-              <mat-error *ngIf="bookingForm.get('venueId')?.hasError('required')">
-                Please select a venue
+              <mat-error *ngIf="isFieldInvalid('venueId')">
+                {{getErrorMessage('Venue')}}
               </mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="outline">
               <mat-label>Activity ID</mat-label>
-              <input matInput formControlName="activityId" placeholder="Enter activity ID">
-              <mat-error *ngIf="bookingForm.get('activityId')?.hasError('required')">
-                Activity ID is required
+              <input matInput formControlName="activityId" placeholder="Enter activity ID" maxlength="6">
+              <mat-error *ngIf="isFieldInvalid('activityId')">
+                {{getErrorMessage('Activity ID')}}
               </mat-error>
             </mat-form-field>
 
@@ -40,8 +40,8 @@
               <input matInput [matDatepicker]="picker" formControlName="date" (dateChange)="onDateChange()">
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
-              <mat-error *ngIf="bookingForm.get('date')?.hasError('required')">
-                Date is required
+              <mat-error *ngIf="isFieldInvalid('date')">
+                {{getErrorMessage('Date')}}
               </mat-error>
             </mat-form-field>
 
@@ -49,16 +49,16 @@
               <mat-form-field appearance="outline">
                 <mat-label>Start Time</mat-label>
                 <input matInput type="time" formControlName="startTime">
-                <mat-error *ngIf="bookingForm.get('startTime')?.hasError('required')">
-                  Start time is required
+                <mat-error *ngIf="isFieldInvalid('startTime')">
+                  {{getErrorMessage('Start time')}}
                 </mat-error>
               </mat-form-field>
 
               <mat-form-field appearance="outline">
                 <mat-label>End Time</mat-label>
                 <input matInput type="time" formControlName="endTime">
-                <mat-error *ngIf="bookingForm.get('endTime')?.hasError('required')">
-                  End time is required
+                <mat-error *ngIf="isFieldInvalid('endTime')">
+                  {{getErrorMessage('End time')}}
                 </mat-error>
               </mat-form-field>
             </div>

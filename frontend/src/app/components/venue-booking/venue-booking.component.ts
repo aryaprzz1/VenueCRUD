@@ -27,7 +27,11 @@ export class VenueBookingComponent implements OnInit {
   ) {
     this.bookingForm = this.fb.group({
       venueId: ['', Validators.required],
-      activityId: ['', Validators.required],
+      activityId: ['', [
+        Validators.required,
+        Validators.maxLength(6),
+        Validators.pattern('^[0-9]*$')
+      ]],
       date: ['', Validators.required],
       startTime: ['', Validators.required],
       endTime: ['', Validators.required]
@@ -77,6 +81,12 @@ export class VenueBookingComponent implements OnInit {
             this.showSnackBar('Error creating booking', 'error');
           });
       }
+    } else {
+      // Mark all fields as touched to trigger validation display
+      Object.keys(this.bookingForm.controls).forEach(key => {
+        const control = this.bookingForm.get(key);
+        control?.markAsTouched();
+      });
     }
   }
 
@@ -108,6 +118,32 @@ export class VenueBookingComponent implements OnInit {
     this.bookingForm.reset();
     this.isEditing = false;
     this.currentBookingId = null;
+    // Mark all fields as untouched after reset
+    Object.keys(this.bookingForm.controls).forEach(key => {
+      const control = this.bookingForm.get(key);
+      control?.markAsUntouched();
+    });
+  }
+
+  // Helper method to check if a field is invalid and touched
+  isFieldInvalid(fieldName: string): boolean {
+    const field = this.bookingForm.get(fieldName);
+    return field ? field.invalid && field.touched : false;
+  }
+
+  // Helper method to get specific error message
+  getErrorMessage(fieldName: string): string {
+    const control = this.bookingForm.get(fieldName);
+    if (control?.hasError('required')) {
+      return `${fieldName} is required`;
+    }
+    if (control?.hasError('maxlength')) {
+      return `${fieldName} cannot be more than 6 digits`;
+    }
+    if (control?.hasError('pattern')) {
+      return `${fieldName} must contain only numbers`;
+    }
+    return '';
   }
 
   onVenueChange(venueId: number): void {
