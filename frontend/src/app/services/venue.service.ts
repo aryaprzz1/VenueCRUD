@@ -8,7 +8,7 @@ import { Venue } from '../models/venue.model';
   providedIn: 'root'
 })
 export class VenueService {
-  private apiUrl = 'http://172.10.8.61:8080/api/venues';
+  private apiUrl = 'http://172.10.8.61:8080/venue/api/venues';
 
   constructor(private http: HttpClient) { }
 
